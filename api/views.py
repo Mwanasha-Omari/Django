@@ -60,6 +60,47 @@ class TeacherListView(APIView):
         teachers=Teacher.objects.all()
         serializer=TeacherSerializer(teachers,many=True)
         return Response(serializer.data)
+    
+class TeacherDetailView(APIView):
+    def get(self,request,id):
+            teacher =Teacher.objects.get(id=id)
+            serializer=TeacherSerializer(teacher)
+            return Response(serializer.data)
+    
+    def put(self,request,id):
+            teacher=Teacher.objects.get(id=id)
+            serializer=TeacherSerializer(teacher,data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data,status=status.HTTP_201_CREATED)
+            else:
+                return Response(serializer.data,status=status.HTTP_400_BAD_RREQUEST)
+            
+    def delete(self,request,id):
+             student=Teacher.objects.get(id=id)
+             student.delete()
+             return Response(status=status.HTTP_202_ACCEPTED)
+    
+class ClassPeriodDetailView(APIView):
+    def get(self,request,id):
+            classperiod =ClassPeriodDetailView.objects.get(id=id)
+            serializer=ClassPeriodSerializer(classperiod)
+            return Response(serializer.data)
+    
+    def put(self,request,id):
+            classperiod=ClassPeriod.objects.get(id=id)
+            serializer=ClassPeriodSerializer(classperiod,data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data,status=status.HTTP_201_CREATED)
+            else:
+                return Response(serializer.data,status=status.HTTP_400_BAD_RREQUEST)
+            
+    def delete(self,request,id):
+             student=ClassPeriod.objects.get(id=id)
+             student.delete()
+             return Response(status=status.HTTP_202_ACCEPTED)    
+
 
 class ClassPeriodListView(APIView):
     def get(self,request):
